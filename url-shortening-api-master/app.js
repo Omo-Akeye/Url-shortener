@@ -3,34 +3,36 @@ const input = document.getElementById('input');
 const ul = document.querySelector('article ul');
 const para = document.getElementById('para');
 
-btn.addEventListener('click', async (e)=> {
-  e.preventDefault();
-  const inputValue = input.value;
-  if (!inputValue) {
-    para.style.visibility ='visible';
-    input.classList.add('warning')
-  } else {
-    const apiUrl = `https://api.shrtco.de/v2/shorten?url=${inputValue}`;
-    try{
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      console.log(data)
-      const list = document.createElement('li');
-      list.innerHTML = `
-      <div><a href="${inputValue}" class='full-link'>${inputValue}</a></div>
-      <span>
-        <a href="${data.result.full_short_link}"><h4 class="shortened-link">${data.result.full_short_link}</h4></a>
-        <button class="copy">Copy</button>
-      </span>
-     `
-     input.value ="";
-     ul.appendChild(list);
-     para.style.visibility ='hidden';
-    } catch(e){
-      return null;
-    }}
-  }
-  );
+  btn.addEventListener('click', async (e)=> {
+    e.preventDefault();
+    const inputValue = input.value;
+    if (!inputValue) {
+      para.style.visibility ='visible';
+      input.classList.add('warning')
+    } else {
+      const apikey = "c6b6549aec274a028cf130976ac04680"
+      const api = `https://api.rebrandly.com/v1/links/new?apikey=${apikey}&destination=${encodeURIComponent(inputValue)}`;
+      try{
+        const response = await fetch(api);
+        const data = await response.json();
+        console.log(data)
+        const list = document.createElement('li');
+        list.innerHTML = `
+        <div><a href=${inputValue} class='full-link'>${inputValue}</a></div>
+        <span>
+          <a href="${data.shortURL}"><h4 class="shortened-link">${data.shortURL}</h4></a>
+          <button class="copy">Copy</button>
+        </span>
+       `
+       console.log(data.shortURL);
+       input.value ="";
+       ul.appendChild(list);
+       para.style.visibility ='hidden';
+      } catch(e){
+        return null;
+      }}
+    }
+    );
 
 
    // Event handler for copy button
@@ -64,4 +66,3 @@ btn.addEventListener('click', async (e)=> {
       navbar.classList.add('fa-bars'); 
     }
   })
-
