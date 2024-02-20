@@ -8,9 +8,7 @@
 html {
   overflow-x: hidden;
 }
-body {
-  overflow: hidden;
-}
+
 li {
   list-style: none;
 }
